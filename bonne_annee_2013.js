@@ -58,7 +58,7 @@ function drawWord(x, y) {
 
 var j = 0;
 for (var i=0; i < document.querySelector('#phrase').innerHTML.length; i+=5) {
-	contenuP[j] = document.querySelector('#phrase').innerHTML.substring(i, i+5);
+	contenuP[j] = "▓▓▓▓▓"; //document.querySelector('#phrase').innerHTML.substring(i, i+5);
 	console.log(contenuP[j]);
 	j++;
 }
