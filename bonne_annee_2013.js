@@ -1,11 +1,3 @@
-// faire des vagues dans la partie basse de l'écran.
-// Déja faire en sorte de remplir un rectangle avec des mots (cf. le remplissage du cercle), puis faire en sorte que la partie haut change :
-// i   i
-// ii ii i
-// iiiiiii
-// iiiiiii
-// dans cet esprit là ça devrait donner un effet de vagues si ça bouge régulièrement
-
 // Polyfill pour le requestAnimationFrame
 window.requestAnimFrame = (function(){
       return  window.requestAnimationFrame       || 
@@ -23,9 +15,6 @@ var clavier = ""; //contient la touche actuellement pressée
 var animId;
 
 var intervId = new Array(); // contient les identifiants de tous les setInterval en cours
-
-// mettre les span dans un nouveau div pour chaque ligne
-// faire en ASCII art
 
 function deleteWord(x, y) {
 	var idElement = "#s"+x+"-"+y;
@@ -104,7 +93,7 @@ for (var y=0; y <= yIdMax; y++) {
 	mainDiv.appendChild(document.createElement("br"));
 	// mainDiv = document.createElement("div");
 }
-	document.body.insertBefore(mainDiv, document.querySelector('#phrase'));
+document.body.insertBefore(mainDiv, document.querySelector('#phrase'));
 
 
 document.body.addEventListener('keydown', function (e) {
@@ -223,6 +212,14 @@ function gameLoop() {
 	
 	var mesureTemps = Date.now() - chrono;
 	
+	if (monte && (typeof positionXDeMessage != 'undefined')) {
+		if (document.querySelector('#messageBA').offsetTop > (hauteurFenetre - (hauteurListe[positionXDeMessage][0] * hauteurPhrase)))
+			document.querySelector('#messageBA').style.top = document.querySelector('#messageBA').offsetTop - 1;	
+	} else if (typeof positionXDeMessage != 'undefined') {
+		if (document.querySelector('#messageBA').offsetTop < (hauteurFenetre - (hauteurListe[positionXDeMessage][0] * hauteurPhrase)))
+			document.querySelector('#messageBA').style.top = document.querySelector('#messageBA').offsetTop + 1;	
+	}
+	
 	if (mesureTemps > vitesse) {
 		animVagues(monte);
 		nbIter++;
@@ -264,3 +261,18 @@ function stop() {
 }
 
 start();
+
+var divBonneAnnee = document.createElement("div");
+divBonneAnnee.id = "messageBA";
+divBonneAnnee.className = "message";
+divBonneAnnee.innerHTML = "Bonne et <br>heureuse<br>année 2013 !";
+document.body.insertBefore(divBonneAnnee, document.querySelector('#phrase'));
+document.querySelector('#messageBA').style.left = (largeurFenetre - document.querySelector('#messageBA').clientWidth)/2;
+document.querySelector('#messageBA').style.top = (hauteurFenetre - document.querySelector('#messageBA').clientHeight)/2;
+
+// récupération de l'Id du span qui est juste au-dessus de la boîte de message, afin d'obtenir sa potion X pour pouvoir
+// déplacer la boîte selon le point le plus haut de la vague à cet endroit
+var positionXDeMessage = (document.elementFromPoint(
+	(document.querySelector('#messageBA').offsetLeft + (document.querySelector('#messageBA').clientWidth)/2), 
+	(document.querySelector('#messageBA').offsetTop-5)).id.split("-"))[0].substr(1);
+console.log(positionXDeMessage);

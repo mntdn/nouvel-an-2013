@@ -1,5 +1,5 @@
 body {
-	font-family: Courier New, monospace;
+	font-family: Arial, Courier New, monospace;
 	margin: 0;
 }
 
@@ -29,6 +29,19 @@ span {
 	font-size: 12px;
 	margin: 0;
 	padding: 0;
+}
+
+.message {
+	width: auto;
+	background: url("back.png") repeat; 	
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	padding: 20px;
+	font-family: Arial, sans-serif;
+	font-size: 30pt;
+	font-weight: bold;
+	text-align: center;
 }
 
 .affiche {
